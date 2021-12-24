@@ -39,6 +39,7 @@ print(f"4) Removed thor and hulk and added doctor strage: {heros[:]}")
 heros.sort()
 print(f"5) Sort the list: {heros}")
 
+
 # 3. odd_numbers
 print("\n##### 3. Odd number list #####")
 
