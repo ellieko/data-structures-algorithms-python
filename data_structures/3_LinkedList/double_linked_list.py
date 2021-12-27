@@ -9,6 +9,9 @@ class DoubleLinkedList:
     def __init__(self):
         self.head = None
         self.tail = None
+        # not having tail pointer would function similarly
+        # but only appending item to the list is O(n)
+        # because you have to traverse the whole list to get to the end
 
     def isHead(self, node):
         return(node == self.head)
@@ -24,6 +27,21 @@ class DoubleLinkedList:
         itr = self.head
         llstr = ''
         while itr:
+            llstr += str(itr.data) + ' --> ' if itr.next else str(itr.data)
+            itr = itr.next
+        print(llstr)
+
+    def print_with_info(self):
+        if self.head is None:
+            print("Double linked list is empty")
+            return
+        itr = self.head
+        llstr = ''
+        while itr:
+            if self.isHead(itr):
+                llstr += '(head) '
+            if self.isTail(itr):
+                llstr += '(tail) '
             llstr += str(itr.data) + ' --> ' if itr.next else str(itr.data)
             itr = itr.next
         print(llstr)
@@ -49,45 +67,50 @@ class DoubleLinkedList:
         return count
 
     def insert_at_beginning(self, data):
-        if self.get_length() == 0:
+        if self.get_length() == 0:          # Same as self.head == None
             node = Node(data)
             self.head = node
             self.tail = node
         else:
-            old_head = self.head
-            node = Node(data, old_head)
+            node = Node(data, self.head)
+            self.head.prev = node
             self.head = node
-            old_head.prev = node
 
     def insert_at_end(self, data):
-        if self.get_length() == 0:
+        if self.get_length() == 0:          # Same as self.head == None
             self.insert_at_beginning(data)
         else:
-            old_tail = self.tail
-            node = Node(data, None, old_tail)
+            node = Node(data, None, self.tail)
+            self.tail.next = node
             self.tail = node
-            old_tail.next = node
 
     def insert_at(self, index, data):
-        if index < 0 or index >= self.get_length():
+        # index doesn't match
+        if index < 0 or index > self.get_length():
             raise Exception("Invalid Index")
+        # insert at head
         if index == 0:
             self.insert_at_beginning(data)
+            return
+        # other cases
         itr = self.head
         count = 0
         while itr:
             if count == index - 1:
-                next_node = itr.next
-                node = Node(data, next_node, itr)
+                node = Node(data, itr.next, itr)
+                if itr.next:
+                    itr.next.prev = node
+                if self.isTail(itr):
+                    self.tail = node
                 itr.next = node
-                next_node.prev = node
                 break
-            count += 1
             itr = itr.next
+            count += 1
 
     def remove_at(self, index):
+        len = self.get_length()
         # index doesn't match
-        if index < 0 or index >= self.get_length():
+        if index < 0 or index >= len:
             raise Exception("Invalid Index")
         # remove head
         if index == 0:
@@ -98,8 +121,8 @@ class DoubleLinkedList:
                 self.head = self.head.next
                 self.head.prev = None
             return
-        # remove head
-        if index == self.get_length() - 1:
+        # remove tail
+        if index == len - 1:
             self.tail = self.tail.prev
             self.tail.next = None
             return
@@ -155,7 +178,28 @@ class DoubleLinkedList:
 
 
 if __name__ == '__main__':
+    '''
     ll = DoubleLinkedList()
     ll.insert_values([45, 7, 12, 567, 99])
     ll.remove_by_value(99)
     ll.print_forward()
+    '''
+    ll = DoubleLinkedList()
+    ll.insert_values(["banana", "mango", "grapes", "orange"])
+    ll.print_forward()
+    ll.print_backward()
+    ll.insert_at_end("figs")
+    ll.print_with_info()
+    ll.insert_at(0, "jackfruit")
+    ll.print_with_info()
+    ll.insert_at(6, "dates")    # this is where tail got messed up
+    ll.print_with_info()
+    ll.insert_at(2, "kiwi")
+    ll.print_with_info()
+    print("--------------------------")
+    ll.remove_at(0)
+    ll.print_with_info()
+    ll.remove_at(ll.get_length()-1)
+    ll.print_with_info()
+    ll.remove_at(3)
+    ll.print_with_info()
