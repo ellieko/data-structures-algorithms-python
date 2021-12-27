@@ -4,6 +4,7 @@ class Node:
         self.next = next
         self.prev = prev
 
+
 class DoublyLinkedList:
     def __init__(self):
         self.head = None
@@ -44,7 +45,7 @@ class DoublyLinkedList:
         count = 0
         itr = self.head
         while itr:
-            count+=1
+            count += 1
             itr = itr.next
 
         return count
@@ -71,10 +72,10 @@ class DoublyLinkedList:
         itr.next = Node(data, None, itr)
 
     def insert_at(self, index, data):
-        if index<0 or index>self.get_length():
+        if index < 0 or index > self.get_length():
             raise Exception("Invalid Index")
 
-        if index==0:
+        if index == 0:
             self.insert_at_begining(data)
             return
 
@@ -92,10 +93,10 @@ class DoublyLinkedList:
             count += 1
 
     def remove_at(self, index):
-        if index<0 or index>=self.get_length():
+        if index < 0 or index >= self.get_length():
             raise Exception("Invalid Index")
 
-        if index==0:
+        if index == 0:
             self.head = self.head.next
             self.head.prev = None
             return
@@ -110,7 +111,7 @@ class DoublyLinkedList:
                 break
 
             itr = itr.next
-            count+=1
+            count += 1
 
     def insert_values(self, data_list):
         self.head = None
@@ -120,16 +121,21 @@ class DoublyLinkedList:
 
 if __name__ == '__main__':
     ll = DoublyLinkedList()
-    ll.insert_values(["banana","mango","grapes","orange"])
+    ll.insert_values(["banana", "mango", "grapes", "orange"])
     ll.print_forward()
     ll.print_backward()
     ll.insert_at_end("figs")
     ll.print_forward()
-    ll.insert_at(0,"jackfruit")
+    ll.insert_at(0, "jackfruit")
     ll.print_forward()
-    ll.insert_at(6,"dates")
+    ll.insert_at(6, "dates")
     ll.print_forward()
-    ll.insert_at(2,"kiwi")
+    ll.insert_at(2, "kiwi")
     ll.print_forward()
-
-
+    print("--------------------------")
+    ll.remove_at(0)
+    ll.print_forward()
+    ll.remove_at(ll.get_length()-1)
+    ll.print_forward()
+    ll.remove_at(3)
+    ll.print_forward()
