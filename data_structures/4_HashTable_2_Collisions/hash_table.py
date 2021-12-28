@@ -21,7 +21,8 @@ with open(temp_file, "r") as f:
         else:
             temp_list.append(int(tokens[1]))
 print("\nExercise Problem 1)")
-print(f"Best data structure: List\n{temp_list}")
+print(f"The best data structure to use here was a list\n\
+because all we wanted was access of temperature elements")
 print(f"The avaerage temperature in first week of Jan: \
 {round(sum(temp_list[:7])/7,2)}")
 print(f"The maximum temperature in first 10 days of Jan: {max(temp_list)}")
@@ -45,7 +46,9 @@ with open(temp_file, "r") as f:
         else:
             temp_dict[tokens[0]] = int(tokens[1])
 print("\nExercise Problem 2)")
-print(f"Best data structure: Dictionary\n{temp_dict}")
+print(f"The best data structure to use here was a dictionary (internally a hash table)\n\
+because we wanted to know temperature for specific day, requiring key, value pair access\n\
+where you can look up an element by day using O(1) complexity")
 print(f"The temperature on Jan 9: {temp_dict['Jan 9']}")
 print(f"The temperature on Jan 4: {temp_dict['Jan 4']}")
 
@@ -167,21 +170,10 @@ class HashTable:
 
 
 print("\nExercise Problem 4)")
-'''
-t = HashTable()
-t["march 6"] = 310
-t["march 7"] = 420
-t["march 8"] = 67
-t["march 17"] = 63457
-print(t["march 6"])
-print(t["march 17"])
-print(t.arr)
-t["march 6"] = 11
-print(t["march 6"])
-print(t.arr)
-
-del t["march 7"]
-print(t.arr)
+print(f"Tested fine.\n\
+Even took care of the corner case that the solution didn't take care of,\n\
+which is get or set item that has been stored at somewhere else when the arr[h] gets deleted.\n\
+Lesson learned: use helper fuction!!!! (the current code is too hard to read)")
 '''
 t = HashTable()
 t["march 6"] = 20
@@ -212,3 +204,4 @@ print(t.arr)
 # t["Jan 1"] = 0 --> raise exception
 del t["april 2"]
 print(t.arr)
+'''
