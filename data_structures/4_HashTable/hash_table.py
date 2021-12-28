@@ -68,12 +68,13 @@ class HashTable:
         self.arr[h] = None
 
 
-t = HashTable()
-t["march 6"] = 310
-print(t["march 6"])
-print(t["march 10"])
-del t["march 6"]
-print(t["march 6"])
+if __name__ == '__main__':
+    t = HashTable()
+    t["march 6"] = 310
+    print(t["march 6"])
+    print(t["march 10"])
+    del t["march 6"]
+    print(t["march 6"])
 
 # lookup by key: O(1) on average
 # insertion/deletion: O(1) on average
