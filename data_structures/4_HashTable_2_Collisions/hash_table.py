@@ -143,10 +143,10 @@ which is get or set item that has been stored at somewhere else when the arr[h] 
 Lesson learned: use helper fuction!!!! (the current code is too hard to read)")
 
 
-# this test below(using march 9, 10, 29) is
-# what the given solution code fails to pass
-
+"""
 print("\ntest 1) getting item correctly after some deletions")
+# this two tests below(using march 9, 10, 29) are
+# what the given solution code fails to pass
 test1 = HashTable()
 print(test1.get_hash("march 9"))
 print(test1.get_hash("march 10"))
@@ -199,3 +199,4 @@ print(t.arr)
 # t["Jan 1"] = 0 --> raise exception
 del t["april 2"]
 print(t.arr)
+"""
