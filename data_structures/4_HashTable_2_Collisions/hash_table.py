@@ -97,76 +97,43 @@ class HashTable:
             hash += ord(char)
         return hash % self.MAX
 
+    # returns the list of all indexs
+    # that need being probed
+    def get_prob_range(self, index):
+        return [*range(index, len(self.arr))] + [*range(0, index)]
+
     def __getitem__(self, key):
-        arr_index = self.get_hash(key)
-        if self.arr[arr_index][0] == key:
-            return self.arr[arr_index][1]
-        else:
-            found = False
-            if arr_index + 1 == self.MAX:
-                idx = 0
-            else:
-                idx = arr_index + 1
-            while (not found and idx != arr_index):
-                if self.arr[idx][0] == key:
-                    found = True
-                    return self.arr[idx][1]
-                else:
-                    if idx + 1 == self.MAX:
-                        idx = 0
-                    else:
-                        idx += 1
+        # new solution with helper function
+        # need to search all prob range because
+        # there might have been a case that some entries between
+        # were deleted after the item was set
+        h = self.get_hash(key)
+        for i in self.get_prob_range(h):
+            if self.arr[i][0] == key:
+                return self.arr[i][1]
+        return
 
     def __setitem__(self, key, val):
         h = self.get_hash(key)
-        if self.arr[h][0] in (key, None):
-            self.arr[h] = (key, val)
-        else:
-            if h + 1 == self.MAX:
-                idx = 0
-            else:
-                idx = h + 1
-            new_idx = None
-            found = False
-            while not found and idx != h:
-                target = self.arr[idx][0]
-                if target == key:
-                    found = True
-                    self.arr[idx] = (key, val)
-                else:
-                    if target == None and new_idx == None:
-                        new_idx = idx
-                    if idx + 1 == self.MAX:
-                        idx = 0
-                    else:
-                        idx += 1
-            if not found:
-                if new_idx == None:
-                    raise Exception("Hashmap is full")
-                else:
-                    self.arr[new_idx] = (key, val)
+        set = False
+        for i in self.get_prob_range(h):
+            if self.arr[i][0] == key:
+                self.arr[i] = (key, val)
+                set = True
+                return
+        for i in self.get_prob_range(h):
+            if self.arr[i][0] == None:
+                self.arr[i] = (key, val)
+                set = True
+                return
+        if not set:
+            raise Exception("Hashmap is full")
 
-    # Problem) deleted position should have (None, None) but
-    #          it just deletes the one entry
     def __delitem__(self, key):
-        arr_index = self.get_hash(key)
-        if self.arr[arr_index][0] == key:
-            del self.arr[arr_index]
-        else:
-            found = False
-            if arr_index + 1 == self.MAX:
-                idx = 0
-            else:
-                idx = arr_index + 1
-            while (not found and idx != arr_index):
-                if self.arr[idx][0] == key:
-                    found = True
-                    self.arr[idx] = (None, None)
-                else:
-                    if idx + 1 == self.MAX:
-                        idx = 0
-                    else:
-                        idx += 1
+        h = self.get_hash(key)
+        for i in self.get_prob_range(h):
+            if self.arr[i][0] == key:
+                self.arr[i] = (None, None)
 
 
 print("\nExercise Problem 4)")
@@ -174,7 +141,35 @@ print(f"Tested fine.\n\
 Even took care of the corner case that the solution didn't take care of,\n\
 which is get or set item that has been stored at somewhere else when the arr[h] gets deleted.\n\
 Lesson learned: use helper fuction!!!! (the current code is too hard to read)")
-'''
+
+
+# this test below(using march 9, 10, 29) is
+# what the given solution code fails to pass
+
+print("\ntest 1) getting item correctly after some deletions")
+test1 = HashTable()
+print(test1.get_hash("march 9"))
+print(test1.get_hash("march 10"))
+print(test1.get_hash("march 29"))
+test1["march 9"] = 1
+test1["march 10"] = 2
+test1["march 29"] = 3
+print(test1.arr)
+del test1["march 9"]
+print(test1["march 10"])
+print(test1.arr)
+
+print("\ntest 2) setting item correctly after some deletions")
+test2 = HashTable()
+test2["march 9"] = 1
+test2["march 10"] = 2
+test2["march 29"] = 3
+del test2["march 10"]
+test2["march 29"] = 100
+print(test2.arr)
+
+
+print("\nmore tests)")
 t = HashTable()
 t["march 6"] = 20
 t["march 17"] = 88
@@ -204,4 +199,3 @@ print(t.arr)
 # t["Jan 1"] = 0 --> raise exception
 del t["april 2"]
 print(t.arr)
-'''
