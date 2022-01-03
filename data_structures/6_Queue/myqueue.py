@@ -43,16 +43,11 @@ class Queue:
         t1.join()
         t2.join()
 
-    # exercise prob 2) print binary numbers from 1 to 10
 
-    def front(self):
-        return self.buffer.popleft()
-
-
+# exercise prob 2) print binary numbers from 1 to 10
 def binary_numbers(n):
     q = Queue()
     q.enqueue('1')
-    entry = None
     for i in range(n):
         entry = q.dequeue()
         print(entry)
