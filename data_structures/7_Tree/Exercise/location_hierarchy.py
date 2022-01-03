@@ -27,6 +27,7 @@ class TreeNode:
         child.parent = self
         self.children.append(child)
 
+
 def build_location_tree():
     root = TreeNode("Global")
 
@@ -65,6 +66,4 @@ def build_location_tree():
 
 if __name__ == '__main__':
     root_node = build_location_tree()
-    root_node.print_tree(3)
-
-
+    root_node.print_tree(5)
