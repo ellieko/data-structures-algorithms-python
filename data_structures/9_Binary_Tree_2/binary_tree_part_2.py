@@ -6,7 +6,7 @@ class BinarySearchTreeNode:
 
     def add_child(self, data):
         if data == self.data:
-            return # node already exist
+            return  # node already exist
 
         if data < self.data:
             if self.left:
@@ -18,7 +18,6 @@ class BinarySearchTreeNode:
                 self.right.add_child(data)
             else:
                 self.right = BinarySearchTreeNode(data)
-
 
     def search(self, val):
         if self.data == val:
@@ -62,10 +61,17 @@ class BinarySearchTreeNode:
                 return self.right
             elif self.right is None:
                 return self.left
-
+            '''
             min_val = self.right.find_min()
             self.data = min_val
             self.right = self.right.delete(min_val)
+            '''
+            # if the node to be deletedd has two children
+            # it has to copy one from children
+            # and delete the duplicated node from children
+            max_val = self.left.find_max()
+            self.data = max_val
+            self.left = self.left.delete(max_val)
 
         return self
 
@@ -81,23 +87,34 @@ class BinarySearchTreeNode:
 
 
 def build_tree(elements):
-    print("Building tree with these elements:",elements)
+    print("Building tree with these elements:", elements)
     root = BinarySearchTreeNode(elements[0])
 
-    for i in range(1,len(elements)):
+    for i in range(1, len(elements)):
         root.add_child(elements[i])
 
     return root
 
+
 if __name__ == '__main__':
     numbers_tree = build_tree([17, 4, 1, 20, 9, 23, 18, 34])
     numbers_tree.delete(20)
-    print("After deleting 20 ",numbers_tree.in_order_traversal()) # this should print [1, 4, 9, 17, 18, 23, 34]
+    # this should print [1, 4, 9, 17, 18, 23, 34]
+    print("After deleting 20 ", numbers_tree.in_order_traversal())
 
     numbers_tree = build_tree([17, 4, 1, 20, 9, 23, 18, 34])
     numbers_tree.delete(9)
-    print("After deleting 9 ",numbers_tree.in_order_traversal())  # this should print [1, 4, 17, 18, 20, 23, 34]
+    # this should print [1, 4, 17, 18, 20, 23, 34]
+    print("After deleting 9 ", numbers_tree.in_order_traversal())
 
     numbers_tree = build_tree([17, 4, 1, 20, 9, 23, 18, 34])
     numbers_tree.delete(17)
-    print("After deleting 17 ",numbers_tree.in_order_traversal())  # this should print [1, 4, 9, 18, 20, 23, 34]
+    # this should print [1, 4, 9, 18, 20, 23, 34]
+    print("After deleting 17 ", numbers_tree.in_order_traversal())
+
+    print("\n- - - - - - - - - - - - - - - - -\n")
+
+    numbers_tree = build_tree([17, 4, 1, 20, 9, 23, 18, 34])
+    numbers_tree.delete(10)
+    print("After deleting 10 (non-existent node) ",
+          numbers_tree.in_order_traversal())
