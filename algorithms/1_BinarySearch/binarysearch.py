@@ -1,5 +1,8 @@
 from util import time_it
 
+# time complexity: O(log n)
+# space complexity: O(1)
+
 # @time_it
 def linear_search(numbers_list, number_to_find):
     for index, element in enumerate(numbers_list):

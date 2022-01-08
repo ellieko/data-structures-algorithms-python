@@ -1,4 +1,7 @@
 
+# time complexity: O(n^2)
+# space complexity: O(1)
+
 # you can use this to sort strings too
 def bubble_sort(elements):
     size = len(elements)
