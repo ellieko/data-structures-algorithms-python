@@ -1,3 +1,8 @@
+
+# average time complexity: O(nlogn)
+# worst time complexity: O(n^2)
+# space complexity: O()
+
 # implementation of quick sort in python using hoare partition scheme
 
 def swap(a, b, arr):
@@ -31,11 +36,35 @@ def partition(elements, start, end):
     return end
 
 
+# implementation of quick sort in python using lumoto partition scheme (exercise prob)
+
+def quick_sort_lumoto(elements, low, high):
+    pass
+
+def partition_lumoto(elements, low, high):
+    pivot_index = high
+    pivot = elements[high]
+    while low != high :
+        while low < len(elements) and elements[low] <= pivot:
+            low += 1
+        if low < len(elements):
+            high = low
+        while elements[high] > pivot:
+            high += 1
+        if low < high:
+            swap(low, high, elements)
+    return pivot_index
+
+
 if __name__ == '__main__':
     elements = [11,9,29,7,2,15,28]
     # elements = ["mona", "dhaval", "aamir", "tina", "chang"]
-    quick_sort(elements, 0, len(elements)-1)
+    # quick_sort(elements, 0, len(elements)-1)
     print(elements)
+    partition_lumoto(elements, 0, len(elements)-1)
+    print(elements)
+    #partition_lumoto(elements, 1)
+    print(elements) 
 
     tests = [
         [11,9,29,7,2,15,28],
@@ -48,6 +77,6 @@ if __name__ == '__main__':
 
     for elements in tests:
         quick_sort(elements, 0, len(elements)-1)
-        print(f'sorted array: {elements}')
-
-
+        print(f'sorted array by hoare partition: {elements}')
+        #quick_sort_lumoto(elements, 0, len(elements)-1)
+        #print(f'sorted array by lumoto partition: {elements}')
